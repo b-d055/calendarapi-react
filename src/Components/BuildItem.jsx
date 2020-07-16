@@ -29,8 +29,9 @@ const BuildEvents = (props) => {
                     starttimesort = starttimesort.sort((a,b) => a-b)
                     starttimesort.forEach(time => {
                         let timeToShow = 
-                        <li onClick={()=> {props.handleDetailClick(id)}}>
-                            {}
+                        <li onClick={()=> {props.handleDetailClick(id)
+                        console.log(id)
+                        console.log(props.targetedEvent)}}>
                             {name} - {time}
                             {props.targetedEvent === id && 
                             <div>
@@ -39,7 +40,7 @@ const BuildEvents = (props) => {
                             <p>start date and time: {start_date_time}</p>
                             <p>end date and time: {end_date_time}</p>
                             <button onClick={()=> {
-                                id=null
+                                id = null
                                 props.handleDetailClick(id)}}>Close</button>
                             </div>}
                         </li>
@@ -52,9 +53,9 @@ const BuildEvents = (props) => {
     return (
         toShow.map(x => {
             return(
-            <div>
+                <>
                 {x}
-            </div>
+                </>
             )
         })
     

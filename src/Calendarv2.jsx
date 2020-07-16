@@ -1,8 +1,8 @@
-import React from 'react'
+import React from 'react';
 import { render } from 'react-dom';
-import Item from './Components/Item'
+import Item from './Components/Item';
 import AddButton from './Components/AddButton';
-import EditButton from './Components/EditButton'
+import EditButton from './Components/EditButton';
 
 export default class Calendar extends React.Component {
     constructor(props) {
@@ -57,7 +57,6 @@ export default class Calendar extends React.Component {
           isAddShown: false,
           isEditShown: false,
         emptyEvent:{},
-
         sortedEvents:{},
         attendees: "Zach, Toby, the gang",
         end_date_time: "2021-01-02T8:12",
@@ -68,9 +67,10 @@ export default class Calendar extends React.Component {
         uuid:"101010101010101010101010101",
     }
 }
+
 handleDetailClick = (id) => {
     this.setState({targetedEvent: id})
-    this.setEmptyEvent(this.state.events[id])
+    this.setState({emptyEvent:this.state.events[id]})
 }
 setIsAddShown = (value) => {
     this.setState({isAddShown:!value})
@@ -78,40 +78,16 @@ setIsAddShown = (value) => {
 setIsEditShown = (value) => {
     this.setState({isEditShown:!value})
 }
-setEmptyEvent = (value) => {
-    this.setState({emptyEvent:value})
-}
-handleChange = (event) => {
-    const id = event.target.id
-    this.setState({[id]: event.target.value});
- }
- handleEditChange = (event) => {
-    const id = event.target.id
-    const emptyEvent = {...this.state.emptyEvent}
-    emptyEvent[id] = event.target.value
-    console.log(emptyEvent[id])
-    this.setState({emptyEvent: emptyEvent});
- }
- handleEditSubmit = (event) => (newEvent) => {
-    event.preventDefault();
-    let newerEvent = {...this.state.events}
-    newerEvent = {[newEvent['uuid']]:newEvent}
-    this.setState({events:newerEvent})
-    console.log(newerEvent)
-    this.setIsEditShown(this.state.isEditShown)
- }
-handleSubmit = (event) => {
-    event.preventDefault(); 
-    const newEvent = {
-        attendees: this.state.attendees,
-        end_date_time: this.state.end_date_time,
-        name: this.state.name,
-        notes: this.state.notes,
-        start_date_time: this.state.start_date_time,
-        createdBy: this.state.createdBy,
-    }
-    let events = this.state.events
-    const uuid = this.state.uuid
+ handleEditSubmit = (newEvent) => {
+    let events = {...this.state.events}
+    const uuid = newEvent["uuid"]
+    events[uuid] = newEvent
+    this.setState({events:events})
+    this.setState({isEditShown:!this.state.isEditShown})
+  }
+handleAddSubmit = (newEvent) => {
+    let events = {...this.state.events}
+    const uuid = newEvent["uuid"]
     events[uuid] = newEvent
     this.setState({events:events})
     this.setState({isAddShown:!this.state.isAddShown})
@@ -120,25 +96,15 @@ render() {
     return (
     <>
     <AddButton
-    handleChange={this.handleChange} 
-    handleSubmit={this.handleSubmit}
+    handleAddSubmit={this.handleAddSubmit}
     setIsAddShown={this.setIsAddShown} 
     isAddShown={this.state.isAddShown}
-    name={this.state.name}
-    notes={this.state.notes}
-    start_date_time={this.state.start_date_time}
-    attendees={this.state.attendees}
-    createdBy={this.state.createdBy}
-    uuid={this.state.uuid}
-    end_date_time={this.state.end_date_time} 
     />
     <EditButton
-    setEmptyEvent={this.setEmptyEvent}
     emptyEvent={this.state.emptyEvent}
-    handleEditChange={this.handleEditChange}
     setIsEditShown={this.setIsEditShown}
     events={this.state.events}
-    handleEditSubmit={this.handleEditChange}
+    handleEditSubmit={this.handleEditSubmit}
     isEditShown={this.state.isEditShown}
     targetedEvent={this.state.targetedEvent}
     /> 
