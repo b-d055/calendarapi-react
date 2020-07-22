@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
-import Item from './Components/Item';
+import ItemList from './Components/ItemList';
 import AddButton from './Components/AddButton';
 import EditButton from './Components/EditButton';
 
@@ -52,7 +52,7 @@ export default class Calendar extends React.Component {
             "November",
             "December",
           ],
-          targetedEvent:"c8ba0bb7-8a26-4646-a563-1e3f5363443e",
+          targetedEvent:"",
           isDetailShown:false,
           isAddShown: false,
           isEditShown: false,
@@ -86,8 +86,12 @@ setIsEditShown = (value) => {
     this.setState({isEditShown:!this.state.isEditShown})
   }
 handleAddSubmit = (newEvent) => {
-    let events = {...this.state.events}
+    console.log("handleAddSubmit")
+    let events = this.state.events
+    console.log(this.state.events)
+    console.log(newEvent)
     const uuid = newEvent["uuid"]
+    console.log(uuid)
     events[uuid] = newEvent
     this.setState({events:events})
     this.setState({isAddShown:!this.state.isAddShown})
@@ -108,8 +112,7 @@ render() {
     isEditShown={this.state.isEditShown}
     targetedEvent={this.state.targetedEvent}
     /> 
-    <ul>
-    <Item 
+    <ItemList 
     targetedEvent={this.state.targetedEvent}
     isDetailShown={this.state.isDetailShown} 
     handleDetailClick={this.handleDetailClick}
@@ -117,7 +120,6 @@ render() {
     isEditShown={this.state.isEditShown} 
     events={this.state.events}
     />
-    </ul>
     </>
     )
 }
