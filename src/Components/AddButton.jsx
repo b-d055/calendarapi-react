@@ -1,5 +1,6 @@
 import React from 'react'
 import {useInput} from '../Hook/useInputHook'
+import DateAndTimePickers from './DatePicker';
 
 export default function AddButton(props) {
     const { value:nameValue, bind:nameBind, reset:nameReset } = useInput('');
@@ -37,8 +38,8 @@ export default function AddButton(props) {
             <form onSubmit={handleSubmit}>
             <input type="text" id='name' {...nameBind} placeholder="Event Name" /><br></br>
             <input type="text"id='attendees' {...attendeesBind} placeholder="Attendees" /><br></br>
-            <input type="text" id='start_date_time' {...startBind} placeholder="Start Date and Time" /><br></br>
-            <input type="text" id='end_date_time' {...endBind} placeholder="End Date and Time" /><br></br>
+            <DateAndTimePickers label="Start Date and Time" {...startBind} /><br></br>
+            <DateAndTimePickers label="End Date and Time" {...endBind} /><br></br>
             <input type="text" id='notes' {...notesBind} placeholder="Notes" /><br></br>
             <input type="text" id='createdBy' {...createdByBind} placeholder="Created By" /><br></br>
             <input type="text" id='uuid' {...uuidBind} placeholder="uuid" /><br></br>
