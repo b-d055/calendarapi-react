@@ -16,17 +16,14 @@ const useStyles = makeStyles((theme) => ({
 
 export default function DateAndTimePickers(props) {
   const classes = useStyles();
-  var dateobj =  
-  new Date(Date.now()); 
-  var B = dateobj.toISOString(); 
-
+  const bind = props.bind
 
   return (
       <TextField
         id="datetime-local"
+        {...bind}
         label={props.label}
         type="datetime-local"
-        defaultValue={B}
         className={classes.textField}
         InputLabelProps={{
           shrink: true,

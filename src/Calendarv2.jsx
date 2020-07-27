@@ -3,6 +3,11 @@ import { render } from 'react-dom';
 import ItemList from './Components/ItemList';
 import AddButton from './Components/AddButton';
 import EditButton from './Components/EditButton';
+import AddEditButton from './Components/AddEditForm';
+
+//make edit button a dialogue for material instead of button at top, add to each item
+//Edit and add control same component, have value for extra fields depending on button
+
 
 export default class Calendar extends React.Component {
     constructor(props) {
@@ -56,6 +61,7 @@ export default class Calendar extends React.Component {
           isDetailShown:false,
           isAddShown: false,
           isEditShown: false,
+          isFormShown: false,
         emptyEvent:{},
         sortedEvents:{},
         attendees: "Zach, Toby, the gang",
@@ -75,6 +81,9 @@ handleDetailClick = (id) => {
 setIsAddShown = (value) => {
     this.setState({isAddShown:!value})
 }
+setIsFormShown = (value) => {
+    this.setState({isFormShown:!value})
+}
 setIsEditShown = (value) => {
     this.setState({isEditShown:!value})
 }
@@ -86,15 +95,13 @@ setIsEditShown = (value) => {
     this.setState({isEditShown:!this.state.isEditShown})
   }
 handleAddSubmit = (newEvent) => {
-    console.log("handleAddSubmit")
     let events = this.state.events
-    console.log(this.state.events)
-    console.log(newEvent)
     const uuid = newEvent["uuid"]
-    console.log(uuid)
     events[uuid] = newEvent
     this.setState({events:events})
-    this.setState({isAddShown:!this.state.isAddShown})
+    this.setState({isAddShown:false})
+    this.setState({isFormShown: false})
+
   }
 render() {
     return (
@@ -103,15 +110,26 @@ render() {
     handleAddSubmit={this.handleAddSubmit}
     setIsAddShown={this.setIsAddShown} 
     isAddShown={this.state.isAddShown}
+    isFormShown={this.state.isFormShown}
+    setIsFormShown={this.setIsFormShown}
     />
     <EditButton
     emptyEvent={this.state.emptyEvent}
     setIsEditShown={this.setIsEditShown}
-    events={this.state.events}
     handleEditSubmit={this.handleEditSubmit}
     isEditShown={this.state.isEditShown}
     targetedEvent={this.state.targetedEvent}
+    isFormShown={this.state.isFormShown}
+    setIsFormShown={this.setIsFormShown}
+    setIsAddShown={this.setIsAddShown}
     /> 
+    <AddEditButton 
+    isAddShown={this.state.isAddShown}
+    handleAddSubmit={this.handleAddSubmit}
+    emptyEvent={this.state.emptyEvent}
+    isFormShown={this.state.isFormShown}
+    setIsFormShown={this.setIsFormShown}
+    setIsAddShown={this.setIsAddShown} />
     <ItemList 
     targetedEvent={this.state.targetedEvent}
     isDetailShown={this.state.isDetailShown} 
