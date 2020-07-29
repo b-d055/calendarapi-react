@@ -4,6 +4,8 @@ import ItemList from './Components/ItemList';
 import AddButton from './Components/AddButton';
 import EditButton from './Components/EditButton';
 import AddEditButton from './Components/AddEditForm';
+import { Dialog } from '@material-ui/core';
+import FormDialog from './Components/Dialog';
 
 //make edit button a dialogue for material instead of button at top, add to each item
 //Edit and add control same component, have value for extra fields depending on button
@@ -105,7 +107,17 @@ handleAddSubmit = (newEvent) => {
   }
 render() {
     return (
-    <>
+        <>
+        <FormDialog 
+            emptyEvent={this.state.emptyEvent}
+            setIsEditShown={this.setIsEditShown}
+            handleEditSubmit={this.handleEditSubmit}
+            isEditShown={this.state.isEditShown}
+            targetedEvent={this.state.targetedEvent}
+            isFormShown={this.state.isFormShown}
+            setIsFormShown={this.setIsFormShown}
+            setIsAddShown={this.setIsAddShown}
+        />
     <AddButton
     handleAddSubmit={this.handleAddSubmit}
     setIsAddShown={this.setIsAddShown} 
@@ -123,13 +135,6 @@ render() {
     setIsFormShown={this.setIsFormShown}
     setIsAddShown={this.setIsAddShown}
     /> 
-    <AddEditButton 
-    isAddShown={this.state.isAddShown}
-    handleAddSubmit={this.handleAddSubmit}
-    emptyEvent={this.state.emptyEvent}
-    isFormShown={this.state.isFormShown}
-    setIsFormShown={this.setIsFormShown}
-    setIsAddShown={this.setIsAddShown} />
     <ItemList 
     targetedEvent={this.state.targetedEvent}
     isDetailShown={this.state.isDetailShown} 

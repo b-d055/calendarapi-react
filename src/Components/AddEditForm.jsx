@@ -53,13 +53,13 @@ export default function AddEditButton(props) {
                 </form>
             </div>}
         </>
-        const tempEvent = {...props.emptyEvent}
-        // nameSetValue(props.emptyEvent['name'])
+    const editForm = 
+            // nameSetValue(props.emptyEvent['name'])
             // attendeesSetValue(props.emptyEvent['attendees'])
             // startSetValue(props.emptyEvent['start_date_time'])
             // endSetValue(props.emptyEvent['end_date_time'])
             // notesSetValue(props.emptyEvent['notes'])
-    const editForm =
+            // return(
         <>
             {props.isFormShown && <div>
                 <form onSubmit={handleSubmit}>
@@ -81,6 +81,8 @@ export default function AddEditButton(props) {
                 </form>
             </div>}
         </>
+            // )
+    
 
     if (props.isAddShown) {
         return(addForm)
