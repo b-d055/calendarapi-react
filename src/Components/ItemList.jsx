@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { render } from 'react-dom';
+import EditButton from './EditButton';
 
     const ItemList = (props) => {
         const renderListItems = (stime, idDict, id) => {
@@ -16,6 +17,7 @@ import { render } from 'react-dom';
                         let idd = ids
                         return(
                             <li 
+                            key={idd}
                             onClick={()=> {props.handleDetailClick(idd)
                             }}>
                                 {name} - {stime}
@@ -25,7 +27,22 @@ import { render } from 'react-dom';
                                 <p>Notes: {notes}</p>
                                 <p>Start date and time: {start_date_time}</p>
                                 <p>End date and time: {end_date_time}</p>
-                            
+                                <EditButton
+                                    emptyEvent={props.emptyEvent}
+                                    setIsEditShown={props.setIsEditShown}
+                                    handleEditSubmit={props.handleEditSubmit}
+                                    isEditShown={props.isEditShown}
+                                    targetedEvent={props.targetedEvent}
+                                    isFormShown={props.isFormShown}
+                                    setIsFormShown={props.setIsFormShown}
+                                    setIsAddShown={props.setIsAddShown}
+                                    Open={props.Open}
+                                    handleClickOpen={props.handleClickOpen}
+                                    handleClose={props.handleClose}
+                                    handleAddSubmit={props.handleAddSubmit}
+                                    setIsAddShown={props.setIsAddShown}
+                                    isAddShown={props.isAddShown}
+                                /> 
                                 <button 
                                 onClick={()=> {
                                     idd = null

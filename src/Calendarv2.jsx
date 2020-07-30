@@ -59,6 +59,7 @@ export default class Calendar extends React.Component {
             "November",
             "December",
           ],
+          Open:false,
           targetedEvent:"",
           isDetailShown:false,
           isAddShown: false,
@@ -97,7 +98,7 @@ setIsEditShown = (value) => {
     this.setState({isEditShown:!this.state.isEditShown})
   }
 handleAddSubmit = (newEvent) => {
-    let events = this.state.events
+    let events = {...this.state.events}
     const uuid = newEvent["uuid"]
     events[uuid] = newEvent
     this.setState({events:events})
@@ -105,27 +106,42 @@ handleAddSubmit = (newEvent) => {
     this.setState({isFormShown: false})
 
   }
+ handleClickOpen = () => {
+    this.setState({Open:true});
+    if (this.state.isAddShown === true) {
+        this.setState({emptyEvent:null})
+    }
+  };
+
+ handleClose = () => {
+    this.setState({Open:false});
+  };
 render() {
     return (
         <>
-        <FormDialog 
-            emptyEvent={this.state.emptyEvent}
-            setIsEditShown={this.setIsEditShown}
-            handleEditSubmit={this.handleEditSubmit}
-            isEditShown={this.state.isEditShown}
-            targetedEvent={this.state.targetedEvent}
-            isFormShown={this.state.isFormShown}
-            setIsFormShown={this.setIsFormShown}
-            setIsAddShown={this.setIsAddShown}
-        />
-    <AddButton
+    <FormDialog 
+    emptyEvent={this.state.emptyEvent}
+    Open={this.state.Open}
+    handleClickOpen={this.handleClickOpen}
+    handleClose={this.handleClose}
+    handleAddSubmit={this.handleAddSubmit}
+    setIsAddShown={this.setIsAddShown}
+    isAddShown={this.state.isAddShown}
+    />
+    {/* <AddButton
     handleAddSubmit={this.handleAddSubmit}
     setIsAddShown={this.setIsAddShown} 
     isAddShown={this.state.isAddShown}
     isFormShown={this.state.isFormShown}
     setIsFormShown={this.setIsFormShown}
-    />
-    <EditButton
+    /> */}
+    <ItemList 
+    targetedEvent={this.state.targetedEvent}
+    isDetailShown={this.state.isDetailShown} 
+    handleDetailClick={this.handleDetailClick}
+    months={this.state.months} 
+    isEditShown={this.state.isEditShown} 
+    events={this.state.events}
     emptyEvent={this.state.emptyEvent}
     setIsEditShown={this.setIsEditShown}
     handleEditSubmit={this.handleEditSubmit}
@@ -134,14 +150,12 @@ render() {
     isFormShown={this.state.isFormShown}
     setIsFormShown={this.setIsFormShown}
     setIsAddShown={this.setIsAddShown}
-    /> 
-    <ItemList 
-    targetedEvent={this.state.targetedEvent}
-    isDetailShown={this.state.isDetailShown} 
-    handleDetailClick={this.handleDetailClick}
-    months={this.state.months} 
-    isEditShown={this.state.isEditShown} 
-    events={this.state.events}
+    Open={this.state.Open}
+    handleClickOpen={this.handleClickOpen}
+    handleClose={this.handleClose}
+    handleAddSubmit={this.handleAddSubmit}
+    setIsAddShown={this.setIsAddShown}
+    isAddShown={this.state.isAddShown}
     />
     </>
     )

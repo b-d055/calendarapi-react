@@ -8,33 +8,64 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DateAndTimePickers from './DatePicker';
 import {useInput} from '../Hook/useInputHook';
+import militaryToStandard from './Helper'
 
 export default function FormDialog(props) {
-    const { value:nameValue, bind:nameBind, reset:nameReset } = useInput('');
-    const { value:attendeesValue, bind:attendeesBind, reset:attendeesReset } = useInput('');
-    const { value:startValue, bind:startBind, reset:startReset } = useInput('');
-    const { value:endValue, bind:endBind, reset:endReset } = useInput('');
-    const { value:notesValue, bind:notesBind, reset:notesReset } = useInput('');
+
+    const { setValue:nameSetValue, value:nameValue, bind:nameBind, reset:nameReset } = useInput('');
+    const { setValue:attendeesSetValue, value:attendeesValue, bind:attendeesBind, reset:attendeesReset } = useInput('');
+    const { setValue:startSetValue, value:startValue, bind:startBind, reset:startReset } = useInput('');
+    const { setValue:endSetValue, value:endValue, bind:endBind, reset:endReset } = useInput('');
+    const { setValue:notesSetValue, value:notesValue, bind:notesBind, reset:notesReset } = useInput('');
     const { value:createdByValue, bind:createdByBind, reset:createdByReset } = useInput('');
     const { value:uuidValue, bind:uuidBind, reset:uuidReset } = useInput('');
-  const [open, setOpen] = React.useState(false);
+    const handleClickOpen = props.handleClickOpen
+    const handleClose = props.handleClose
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
+    const handleSubmit = (e) => {
+      e.preventDefault();
+      console.log('hellos')
+      const newEvent = {
+          attendees:attendeesValue,
+          name:nameValue,
+          start_date_time:startValue,
+          end_date_time:endValue,
+          notes:notesValue,
+          createdBy: createdByValue,
+          uuid:uuidValue,
+      }
+      nameReset();
+      attendeesReset();
+      startReset();
+      endReset();
+      notesReset();
+      createdByReset();
+      uuidReset();
+      props.handleAddSubmit(newEvent)
+  }
+  const setValue = () => {
+    nameSetValue(props.emptyEvent['name'])
+    attendeesSetValue(props.emptyEvent['attendees'])
+    startSetValue(militaryToStandard(props.emptyEvent['start_date_time']))
+    endSetValue(militaryToStandard(props.emptyEvent['end_date_time']))
+    notesSetValue(props.emptyEvent['notes'])
+  }
   return (
     <div>
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+      <Button variant="outlined" color="primary" onClick={() => {
+        handleClickOpen()
+        props.setIsAddShown(false)
+        }}>
         Add Event
       </Button>
-      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Add Event</DialogTitle>
+      <Dialog 
+      open={props.Open} 
+      onClose={handleClose} 
+      aria-labelledby="form-dialog-title">
         <DialogContent>
+      <DialogTitle id="form-dialog-title">{props.isAddShown ? 'Add Event':'Edit Event'}</DialogTitle>
+          <button hidden={props.isAddShown ? true:false} onClick={setValue}>Load Event</button>
+          <form onSubmit={handleSubmit} id='DialogForm' >
           <TextField
             {...nameBind}
             autoFocus
@@ -44,7 +75,7 @@ export default function FormDialog(props) {
             type="text"
             fullWidth
           />
-            <TextField
+          <TextField
             {...attendeesBind}
             autoFocus
             margin="dense"
@@ -53,8 +84,14 @@ export default function FormDialog(props) {
             type="text"
             fullWidth
           />
-            <DateAndTimePickers bind={startBind} label="Start Date and Time" /><br></br>
-            <DateAndTimePickers bind={endBind} label="End Date and Time" /><br></br>
+          <DateAndTimePickers 
+              emptyEvent={props.emptyEvent} 
+              bind={startBind} 
+              label="Start Date and Time" /><br></br>
+          <DateAndTimePickers 
+              emptyEvent={props.emptyEvent} 
+              bind={endBind} 
+              label="End Date and Time" /><br></br>
           <TextField
             {...notesBind}
             autoFocus
@@ -65,32 +102,31 @@ export default function FormDialog(props) {
             fullWidth
           />
           {props.isAddShown && <div>
-              <TextField 
-                  autoFocus
-                  margin="dense"
-                  id="createdBy"
-                  label="Created By"
-                  type="text"
-                  fullWidth
-                />
             <TextField 
-                autoFocus
-                margin="dense"
-                id="uuid"
-                label="uuid"
-                type="text"
-                fullWidth
+              autoFocus
+              margin="dense"
+              id="createdBy"
+              label="Created By"
+              type="text"
+              fullWidth
+            />
+            <TextField 
+              autoFocus
+              margin="dense"
+              id="uuid"
+              label="uuid"
+              type="text"
+              fullWidth
             />
                 </div>
                 }
+            </form>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={handleClose} color="primary">
-            Subscribe
-          </Button>
+          <input type="submit" form="DialogForm" onClick={handleClose} value="Submit" color="primary"/>
         </DialogActions>
       </Dialog>
     </div>

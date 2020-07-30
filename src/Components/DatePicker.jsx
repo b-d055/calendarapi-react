@@ -1,6 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
+import militaryToStandard from './Helper'
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -15,9 +16,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function DateAndTimePickers(props) {
+  
   const classes = useStyles();
   const bind = props.bind
-
+  
   return (
       <TextField
         id="datetime-local"
